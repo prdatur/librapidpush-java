@@ -17,7 +17,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +24,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
 import javax.net.ssl.HttpsURLConnection;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,13 +70,13 @@ public class RapidPush {
 	 * @param message 
 	 *   The message.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean schedule(Date date, String title, String message) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse schedule(Date date, String title, String message) throws ParseException, RapidPushResponseException, IOException {
 		return schedule(date, title, message, 2);
 	}
 
@@ -94,13 +92,13 @@ public class RapidPush {
 	 * @param The 
 	 *   priority.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean schedule(Date date, String title, String message, int priority) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse schedule(Date date, String title, String message, int priority) throws ParseException, RapidPushResponseException, IOException {
 		return schedule(date, title, message, priority, "default");
 	}
 
@@ -118,13 +116,13 @@ public class RapidPush {
 	 * @param category 
 	 *   The category.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean schedule(Date date, String title, String message, int priority, String category) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse schedule(Date date, String title, String message, int priority, String category) throws ParseException, RapidPushResponseException, IOException {
 		return schedule(date, title, message, priority, category, "");
 	}
 
@@ -144,13 +142,13 @@ public class RapidPush {
 	 * @param group 
 	 *   The device group.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean schedule(Date date, String title, String message, int priority, String category, String group) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse schedule(Date date, String title, String message, int priority, String category, String group) throws ParseException, RapidPushResponseException, IOException {
 		return notify(title, message, priority, category, group, date);
 	}
 
@@ -162,13 +160,13 @@ public class RapidPush {
 	 * @param message 
 	 *   The message.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean notify(String title, String message) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse notify(String title, String message) throws ParseException, RapidPushResponseException, IOException {
 		return notify(title, message, 2);
 	}
 
@@ -182,13 +180,13 @@ public class RapidPush {
 	 * @param priority
 	 *   The priority.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean notify(String title, String message, int priority) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse notify(String title, String message, int priority) throws ParseException, RapidPushResponseException, IOException {
 		return notify(title, message, priority, "default");
 	}
 
@@ -204,13 +202,13 @@ public class RapidPush {
 	 * @param category 
 	 *   The category.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean notify(String title, String message, int priority, String category) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse notify(String title, String message, int priority, String category) throws ParseException, RapidPushResponseException, IOException {
 		return notify(title, message, priority, category, "", null);
 	}
 
@@ -230,13 +228,13 @@ public class RapidPush {
 	 * @param date 
 	 *   The local date. If provided the notification will be scheduled, if set to null the notification will be directly send out.
 	 *
-	 * @return True on success, else a RapidPushException will be thrown.
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
 	 *
 	 * @throws ParseException
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public boolean notify(String title, String message, int priority, String category, String group, Date date) throws ParseException, RapidPushResponseException, IOException {
+	public RapidPushNotifyResponse notify(String title, String message, int priority, String category, String group, Date date) throws ParseException, RapidPushResponseException, IOException {
 
 		// We do not need to send a notification with an invalid priority.
 		if (priority <= 0 || priority > 6) {
@@ -277,61 +275,20 @@ public class RapidPush {
 					getDateField(notification_calendar.get(Calendar.HOUR_OF_DAY)) + ":" + getDateField(notification_calendar.get(Calendar.MINUTE)) + ":00");
 		}
 
-		// Send the API-Request and get the raw response.
-		ArrayList<String> raw_response = execute("notify", params);
-
-		// Get the response code.
-		int response_code = Integer.parseInt(raw_response.get(0));
-
-		// Get the response message.
-		String response_message = raw_response.get(1);
-
-		// If we have not a success, throw an exception.
-		if (response_code != 200) {
-			throw new RapidPushResponseException(response_message, response_code);
-		}
-
-		// Return success.
-		return true;
+		// Send the API-Request and return the response.		
+		return new RapidPushNotifyResponse(execute("notify", params));
 	}
 
 	/**
 	 * Get the configurated device groups.
 	 *
-	 * @return The arraylist with all groups or null on json error.
+	 * @return The rapidpush groups.
 	 *
 	 * @throws RapidPushResponseException
 	 * @throws IOException
 	 */
-	public ArrayList<String> get_groups() throws RapidPushResponseException, IOException {
-		try {
-			// Send the API-Request and get the raw response.
-			ArrayList<String> raw_response = execute("get_groups");
-
-			// Get the response code.
-			int response_code = Integer.parseInt(raw_response.get(0));
-
-			// Get the response message.
-			String response_message = raw_response.get(1);
-
-			// If we have not a success, throw an exception.
-			if (response_code != 200) {
-				throw new RapidPushResponseException(response_message, response_code);
-			}
-
-			JSONArray json_groups = new JSONArray(raw_response.get(2));
-			ArrayList<String> groups = new ArrayList<>();
-
-			for (int i = 0; i < json_groups.length(); i++) {
-				JSONObject groupdata = json_groups.getJSONObject(i);
-				groups.add(groupdata.getString("group"));
-			}
-			return groups;
-
-		}
-		catch (JSONException ex) {
-			return null;
-		}
+	public RapidPushGroups get_groups() throws RapidPushResponseException, IOException {
+		return new RapidPushGroups(execute("get_groups"));
 	}
 
 	/**
@@ -344,7 +301,7 @@ public class RapidPush {
 	 *
 	 * @throws IOException
 	 */
-	private ArrayList<String> execute(String command) throws IOException {
+	private RapidPushResponse execute(String command) throws IOException {
 		return execute(command, null);
 	}
 
@@ -356,13 +313,12 @@ public class RapidPush {
 	 * @param data 
 	 *   The data to be send.
 	 *
-	 * @return array The response array.
+	 * @return The response object..
 	 *
 	 * @throws IOException
 	 */
-	private ArrayList<String> execute(String command, HashMap<String, String> params) throws IOException {
-		ArrayList<String> response = new ArrayList<>();
-
+	private RapidPushResponse execute(String command, HashMap<String, String> params) throws IOException {
+		RapidPushResponse response = new RapidPushResponse();
 		try {
 			if (params == null) {
 				params = new HashMap<>();
@@ -400,7 +356,7 @@ public class RapidPush {
 				urlParameters = urlParameters.substring(1);
 			}
 
-			String response_string = "";
+			String response_string;
 			if (use_ssl) {
 				response_string = do_ssl(urlParameters);
 			}
@@ -409,37 +365,47 @@ public class RapidPush {
 			}
 
 			JSONObject jsonObject = new JSONObject(response_string);
-			response.add(jsonObject.getInt("code") + "");
-			response.add(jsonObject.getString("desc"));
 			try {
-				// Try to get the data as plain text.
-				response.add(jsonObject.getString("data"));
+				response = new RapidPushResponse(jsonObject.getInt("code"), jsonObject.getString("desc"), add_response_data(jsonObject));
 			}
 			catch (JSONException e) {
-				try {
-					// Try to get the data as an json array.
-					response.add(jsonObject.getJSONArray("data").toString());
-				}
-				catch (JSONException e2) {
-					// Try to get the data as an json object.
-					try {
-						response.add(jsonObject.getJSONObject("data").toString());
-					}
-					catch (JSONException e3) {
-						// Its not a string, not an array and finally no object, so add just an empty string.
-						response.add("");
-					}
+				Iterator it2 = jsonObject.keys();
+				while (it2.hasNext()) {
+					String apikey = (String) it2.next();
+					JSONObject jsonResp = jsonObject.getJSONObject(apikey);
+					response.addMultiResponse(apikey, jsonResp.getInt("code"), jsonResp.getString("desc"), add_response_data(jsonResp));
 				}
 			}
-
-
+			
 		}
 		catch (UnsupportedEncodingException | JSONException e) {
-			e.printStackTrace();
 			return null;
 		}
 
 		return response;
+	}
+	
+	private String add_response_data(JSONObject jsonObject) {
+		try {
+			// Try to get the data as plain text.
+			return jsonObject.getString("data");
+		}
+		catch (JSONException e) {
+			try {
+				// Try to get the data as an json array.
+				return jsonObject.getJSONArray("data").toString();
+			}
+			catch (JSONException e2) {
+				// Try to get the data as an json object.
+				try {
+					return jsonObject.getJSONObject("data").toString();
+				}
+				catch (JSONException e3) {
+					// Its not a string, not an array and finally no object, so add just an empty string.
+					return "";
+				}
+			}
+		}
 	}
 
 	/**
