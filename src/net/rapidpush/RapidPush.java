@@ -213,6 +213,33 @@ public class RapidPush {
 	}
 
 	/**
+	 * Sends a broadcast notification.
+	 *
+	 * @param title 
+	 *   The title.
+	 * @param message 
+	 *   The message.
+	 * @param channel 
+	 *   The channel.
+	 *
+	 * @return Returns the RapidPushNotifyResponse, if invalid parameters are provided it will throw a RapidPushException.
+	 *
+	 * @throws ParseException
+	 * @throws RapidPushResponseException
+	 * @throws IOException
+	 */
+	public RapidPushNotifyResponse broadcast(String title, String message, String channel) throws ParseException, RapidPushResponseException, IOException {
+		// Build params.
+		HashMap<String, String> params = new HashMap<>();
+		params.put("title", title);
+		params.put("message", message);
+		params.put("channel", channel);
+
+		// Send the API-Request and return the response.		
+		return new RapidPushNotifyResponse(execute("broadcast", params));
+	}
+	
+	/**
 	 * Sends a notification.
 	 *
 	 * @param title 
